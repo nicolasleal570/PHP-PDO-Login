@@ -5,7 +5,7 @@ class User{
     private $_db,
             $_data,
             $_sessionName, 
-            $_isLoggedIn;
+            $isLoggedIn;
 
     /*-------------------------------*/
     /* CREANDO LA INSTANCIA DE LA DB */
@@ -63,7 +63,7 @@ class User{
     /*--------------------------------*/
     /* VALIDANDO EL LOGIN DEL USUARIO */
     /*--------------------------------*/
-    public function login($username = null, $password = null){
+    public function login($username = null, $password = null, $remember){
 
         $user = $this->find($username);
         
@@ -71,11 +71,23 @@ class User{
             //COMPROBANDO QUE LAS PASSWORDS COINCIDAN
             if ($this->data()->password === Hash::make($password, $this->data()->salt)) {
                 Session::put($this->_sessionName, $this->data()->id);
+
+                if ($remember) {
+                    
+                }
+
                 return true;
             }
         }
 
         return false;
+    }
+
+    /*--------------------------------*/
+    /* CERRANDO LA SESION DEL USUARIO */
+    /*--------------------------------*/
+    public function logout(){
+        Session::delete($this->_sessionName);
     }
 
     /*-----------------------------*/
@@ -86,7 +98,7 @@ class User{
     }
 
     public function isLoggedIn(){
-        return $this->_isLoggedIn;
+        return $this->isLoggedIn;
     }
 
 

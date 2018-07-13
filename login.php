@@ -20,7 +20,10 @@
 
                 //LOG USER IN
                 $user = new User();
-                $login = $user->login(Input::get('username'), Input::get('password'));
+
+                $remember = (Input::get('remember') === 'on') ? true : false;
+
+                $login = $user->login(Input::get('username'), Input::get('password'), $remember);
 
                 if ($login) {
                     Redirect::to('index.php');
@@ -65,6 +68,12 @@
         <div class="input-group">
             <label for="password">Nombre de Usuario: 
                 <input type="password" name="password" id="">
+            </label>
+        </div>
+
+        <div class="input-group">
+            <label for="remember">Remember Me
+                <input type="checkbox" name="remember" id="remeber">
             </label>
         </div>
 
