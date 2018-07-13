@@ -12,7 +12,6 @@ SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -25,20 +24,20 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `groups`
+-- Estructura de tabla para la tabla `type`
 --
 
-CREATE TABLE `groups` (
+CREATE TABLE `type` (
   `id` int(11) NOT NULL,
   `name` varchar(20) NOT NULL,
   `permissions` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `groups`
+-- Volcado de datos para la tabla `type`
 --
 
-INSERT INTO `groups` (`id`, `name`, `permissions`) VALUES
+INSERT INTO `type` (`id`, `name`, `permissions`) VALUES
 (1, 'Standard user', ''),
 (2, 'Administrator', '{\"admin\": 1}');
 
@@ -75,9 +74,9 @@ CREATE TABLE `users_session` (
 --
 
 --
--- Indices de la tabla `groups`
+-- Indices de la tabla `type`
 --
-ALTER TABLE `groups`
+ALTER TABLE `type`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -97,9 +96,9 @@ ALTER TABLE `users_session`
 --
 
 --
--- AUTO_INCREMENT de la tabla `groups`
+-- AUTO_INCREMENT de la tabla `type`
 --
-ALTER TABLE `groups`
+ALTER TABLE `type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
