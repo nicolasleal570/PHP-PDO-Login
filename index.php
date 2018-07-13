@@ -4,14 +4,13 @@ require_once 'core/init.php';
 
 echo Config::get('mysql/host'), '<br>'; //CLASE CONFIG
 
-DB::getInstance();
+$user = DB::getInstance()->get('users', array('username', '=', 'nleal'));
 
-/* $users = DB::getInstance()->get('users', array('username', '=', 'alex'));
-if ($users->count()) {
-	foreach ($users as $user) {
-		echo $user->username;
-	}
-} */
+if (!$user->count()) {
+	echo 'No user';
+}else{
+	echo 'OK!';
+}
 
 
 
