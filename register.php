@@ -32,8 +32,33 @@
             ));
 
             if ($validation->passed()) {
-                Session::flash('success', 'Registro completado exitosamente!');
-                header('Location: index.php');
+
+                $user = new User();
+
+                $salt = Hash::salt(32);
+
+                try{
+
+                    //DATOS DEL USUARIO QUE SE VAN A INSERTAR
+                    $user->create(array(
+                        'username' => Input::get('username'),
+                        'password' => Hash::make(Input::get('password'), $salt),
+                        'salt' => $salt,
+                        'name' => Input::get('name'),
+                        'joined' => date('Y-m-d H:i:s'),
+                        'type' => 1
+                    ));
+
+                    //CREANDO LA VARIABLE home PARA PASARLA AL INDEX.PHP
+                    Session::flash('home', 'Registrado Exitosamente! Ahora inicia sesion.');
+                    header('Location: index.php');
+
+                }catch(Exception $e){
+                    die($e->getMessage());
+                }
+
+
+
             }else{
                 //LISTANDO LOS ERRORES
                 foreach ($validation->errors() as $error) {
