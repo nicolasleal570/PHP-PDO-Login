@@ -14,7 +14,8 @@ $GLOBALS['config'] = array(
 		'cookie_expiry' => 604800 //LA COOKIE SE VENCE EN UN MES
 	),
 	'session' => array(
-		'session_name' => 'user'
+		'session_name' => 'user',
+		'token_name' => 'token'
 	)
 );
 

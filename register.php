@@ -2,36 +2,42 @@
 
     require_once 'core/init.php';
 
+    //var_dump(Token::check(Input::get('token')));
+  
     if (Input::exists()) {
-        $validate = new Validate();
-        $validation = $validate->check($_POST, array(
-            'username' => array(
-                'required' => true,
-                'min' => 2,
-                'max' => 20,
-                'unique' => 'users'
-            ),
-            'password' => array(
-                'required' => true,
-                'min' => 6,
-            ),
-            'password_again' => array(
-                'required' => true,
-                'matches' => 'password'
-            ),
-            'name' => array(
-                'required' => true,
-                'min' => 2,
-                'max' => 50
-            )
-        ));
 
-        if ($validation->passed()) {
-            echo 'Registrado!';
-        }else{
-            //LISTANDO LOS ERRORES
-            foreach ($validation->errors() as $error) {
-                echo $error, '<br>';
+        if (Token::check(Input::get('token'))) {
+
+            $validate = new Validate();
+            $validation = $validate->check($_POST, array(
+                'username' => array(
+                    'required' => true,
+                    'min' => 2,
+                    'max' => 20,
+                    'unique' => 'users'
+                ),
+                'password' => array(
+                    'required' => true,
+                    'min' => 6,
+                ),
+                'password_again' => array(
+                    'required' => true,
+                    'matches' => 'password'
+                ),
+                'name' => array(
+                    'required' => true,
+                    'min' => 2,
+                    'max' => 50
+                )
+            ));
+
+            if ($validation->passed()) {
+                echo 'Registrado!';
+            }else{
+                //LISTANDO LOS ERRORES
+                foreach ($validation->errors() as $error) {
+                    echo $error, '<br>';
+                }
             }
         }
          
@@ -78,6 +84,9 @@
                 <input type="text" class ="input-control" name="name" id="name" value="<?php echo escape(Input::get('name')); ?>" autocomplete="off">
             </label>
         </div>
+
+        <!-- GUARDA UN TOKEN UNICO PARA CADA USUARIO -->
+        <input type="hidden" name="token" value="<?php echo Token::generate(); ?>">
 
         <!-- BTN SUBMIT -->
         <button type="submit" class="btn-submit"> Registrate! </button>
