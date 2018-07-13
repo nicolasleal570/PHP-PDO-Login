@@ -51,7 +51,7 @@
 
                     //CREANDO LA VARIABLE home PARA PASARLA AL INDEX.PHP
                     Session::flash('home', 'Registrado Exitosamente! Ahora inicia sesion.');
-                    header('Location: index.php');
+                    Redirect::to('index.php');
 
                 }catch(Exception $e){
                     die($e->getMessage());
