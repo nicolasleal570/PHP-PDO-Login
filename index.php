@@ -2,15 +2,15 @@
 
 require_once 'core/init.php';
 
-echo Config::get('mysql/host'), '<br>'; //CLASE CONFIG
+$user = DB::getInstance()->update('users', 3,  array(
+	'username' => 'Alex',
+	'password' => '12345',
+	'salt' => 'salt',
+	'name'=> 'Alex Vega',
+	'joined' => '2018-07-13 12:25:00',
+	'type' => 1
+));
 
-$user = DB::getInstance()->get('users', array('username', '=', 'nleal'));
-
-if (!$user->count()) {
-	echo 'No user';
-}else{
-	echo 'OK!';
-}
 
 
 

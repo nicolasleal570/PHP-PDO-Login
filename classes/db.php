@@ -98,6 +98,73 @@ class DB{
 		return $this->action('DELETE', $table, $where);
 	}
 
+	/*------------------------*/
+	/* INSERTA DATOS EN LA BD */
+	/*------------------------*/
+	public function insert($table, $fields = array()){
+		$keys = array_keys($fields);
+		$values = '';
+		$x = 1;
+
+		//PONE TODOS LOS VALORES EN UNA CADENA SEPARADOS POR COMAS, ELIMINANDO LA ULTIMA
+		foreach ($fields as $field) {
+			$values .= '?';
+			if ($x < count($fields)) {
+				$values .= ', ';
+			}
+			$x++;
+		}
+
+		$sql = "INSERT INTO users (`" . implode('`, `', $keys) . "`) VALUES({$values})";
+
+		//EJECUTA EL QUERY Y HACE LA INSERCION
+		if (!$this->query($sql, $fields)->error()) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/*--------------------------*/
+	/* ACTUALIZA DATOS EN LA BD */
+	/*--------------------------*/
+	public function update($table, $id, $fields){
+		$set = '';
+		$x = 1;
+
+		foreach ($fields as $name => $value) {
+			$set .= "{$name} = ?";
+
+			if ($x < count($fields)) {
+				$set .= ", ";
+			}
+			$x++;
+		}
+
+		$sql = "UPDATE {$table} SET {$set} WHERE id = {$id}";
+
+		//EJECUTA EL QUERY Y HACE LA INSERCION
+		if (!$this->query($sql, $fields)->error()) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/*-------------------------------------------------*/
+	/* RECUPERA EL OBJETO QUE DEVUELVE EL METODO QUERY */
+	/*-------------------------------------------------*/
+	public function results(){
+		return $this->_results;
+	}
+
+	/*----------------------------------------*/
+	/* DEVUELVE EL PRIMER RESULTADO DEL QUERY */
+	/*----------------------------------------*/
+	public function first(){
+		return $this->results()[0];
+	}
+
 	/*---------------------------------------*/
 	/* DEVUELVE LOS ERRORES DE LAS CONSULTAS */
 	/*---------------------------------------*/
