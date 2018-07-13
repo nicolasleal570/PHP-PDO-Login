@@ -7,7 +7,7 @@ $GLOBALS['config'] = array(
 		'host' => 'localhost',
 		'username' => 'root',
 		'password' => '',
-		'bd' => 'php-pdo-login'
+		'db' => 'php-pdo-login'
 	),
 	'remember' => array(
 		'cookie_name' => 'hash',
