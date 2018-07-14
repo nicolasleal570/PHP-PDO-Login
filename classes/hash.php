@@ -13,7 +13,7 @@ class Hash{
     /* CREA UNA NUEVA SALT */
     /*---------------------*/
     public static function salt($length){
-        return mcrypt_create_iv($length);
+        return random_bytes($length);
     }
 
     /*-----------------*/

@@ -66,7 +66,7 @@
 
         <!-- PASSWORD -->
         <div class="input-group">
-            <label for="password">Nombre de Usuario: 
+            <label for="password">Password de Usuario: 
                 <input type="password" name="password" id="">
             </label>
         </div>

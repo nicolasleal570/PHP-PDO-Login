@@ -4,7 +4,8 @@ class User{
     
     private $_db,
             $_data,
-            $_sessionName, 
+            $_sessionName,
+            $_cookieName,
             $isLoggedIn;
 
     /*-------------------------------*/
@@ -14,6 +15,7 @@ class User{
         $this->_db = DB::getInstance();
 
         $this->_sessionName = Config::get('session/session_name');
+        $this->_cookieName = Config::get('remember/cookie_name');
 
         if (!$user) {
             if(Session::exists($this->_sessionName)) {
@@ -63,20 +65,42 @@ class User{
     /*--------------------------------*/
     /* VALIDANDO EL LOGIN DEL USUARIO */
     /*--------------------------------*/
-    public function login($username = null, $password = null, $remember){
-
-        $user = $this->find($username);
+    public function login($username = null, $password = null, $remember = false){
         
-        if ($user) {
-            //COMPROBANDO QUE LAS PASSWORDS COINCIDAN
-            if ($this->data()->password === Hash::make($password, $this->data()->salt)) {
-                Session::put($this->_sessionName, $this->data()->id);
+        if (!$username && !$password && $this->exists()) {
+            //LOG USER IN
+            Session::put($this->_sessionName, $this->data()->id);
+        } else {        
+            
+            $user = $this->find($username);
+            
+            if ($user) {
+                //COMPROBANDO QUE LAS PASSWORDS COINCIDAN
+                if ($this->data()->password === Hash::make($password, $this->data()->salt)) {
+                    Session::put($this->_sessionName, $this->data()->id);
 
-                if ($remember) {
-                    
+                    if ($remember) {
+                        $hash = Hash::unique();
+                        //REVISANDO SI YA ESTA ESE HASH EN LA DB
+                        $hashCheck = $this->_db->get('users_session', array('user_id', '=', $this->data()->id));
+
+                        if (!$hashCheck->count()) {
+                            //INSERTANDO LOS DATOS EN LA DB 'users_session'
+                            $this->_db->insert('users_session', array(
+                                'user_id' => $this->data()->id,
+                                'hash' => $hash
+                            ));
+                        } else {
+                            $hash = $hashCheck->first()->hash;
+                        }
+                        
+                        //CREANDO LA COOKIE PARA RECORDAR LA SESION
+                        Cookie::put($this->_cookieName, $hash, Config::get('remember/cookie_expiry'));
+
+                    }
+
+                    return true;
                 }
-
-                return true;
             }
         }
 
@@ -84,10 +108,21 @@ class User{
     }
 
     /*--------------------------------*/
+    /* COMPRUEBA SI EL USUARIO EXISTE */
+    /*--------------------------------*/
+    public function exists(){
+        return (!empty($this->_data)) ? true : false;
+    }
+
+    /*--------------------------------*/
     /* CERRANDO LA SESION DEL USUARIO */
     /*--------------------------------*/
     public function logout(){
+
+        $this->_db->delete('users_session', array('user_id', '=', $this->data()->id));
+
         Session::delete($this->_sessionName);
+        Cookie::delete($this->_cookieName);
     }
 
     /*-----------------------------*/
