@@ -32,7 +32,6 @@
                 }
 
             }else{
-
                 //LISTANDO LOS ERRORES
                 foreach ($validation->errors() as $error) {
                     echo $error . '<br>';

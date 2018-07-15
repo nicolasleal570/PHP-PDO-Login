@@ -17,7 +17,8 @@ if (Session::exists('home')) {
 </head>
 <body>	
 
-	<?php $user = new User(); //CURRENT
+	<?php 
+		$user = new User(); //CURRENT
 
 		if ($user->isLoggedIn()) { ?>
 	

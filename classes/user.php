@@ -85,8 +85,7 @@ class User{
         if (!$username && !$password && $this->exists()) {
             //LOG USER IN
             Session::put($this->_sessionName, $this->data()->id);
-        } else {        
-            
+        } else {            
             $user = $this->find($username);
             
             if ($user) {
