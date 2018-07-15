@@ -122,6 +122,26 @@ class User{
         return false;
     }
 
+    /*--------------------------------------*/
+    /* VALIDANDO EL PERMISO DE LOS USUARIOS */
+    /*--------------------------------------*/
+    public function hasPermission($key){
+        //TRAYENDO EL TIPO DE PERMISO QUE TIENE EL USUARIO
+        $group = $this->_db->get('type', array('id', '=', $this->data()->type));
+        
+        
+        if ($group->count()) {
+            //FILA DE PERMISOS, TABLA 'type'
+            $permissions = json_decode($group->first()->permissions, true);
+            
+            if ($permissions[$key] == true) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /*--------------------------------*/
     /* COMPRUEBA SI EL USUARIO EXISTE */
     /*--------------------------------*/

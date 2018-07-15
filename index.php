@@ -33,6 +33,11 @@ if (Session::exists('home')) {
 			<li><a href="logout.php">Log out</a></li>
 		</ul>
 	<?php 
+			//VALIDANDO QUE TIPO DE USUARIO ERES
+			if ($user->hasPermission('admin')) {
+				echo '<h3> Eres un administrador! </h3>';
+			}
+
 		} else {
 			echo '<p>Necesitas <a href="login.php">Iniciar Sesion</a> o <a href="register.php">Registrarte</a></p>';
 		} 
