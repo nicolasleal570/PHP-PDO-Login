@@ -34,6 +34,21 @@ class User{
         
     }
 
+    /*------------------------------------------------*/
+    /* ACTUALIZA LOS DATOS DEL PERFIL DE LOS USUARIOS CONECTADOS */
+    /*------------------------------------------------*/
+    public function update($fields = array(), $id = null){
+
+        if (!$id && $this->isLoggedIn()) {
+            $id = $this->data()->id;
+        }
+
+        //ERROR DB
+        if (!$this->_db->update('users', $id, $fields)) {
+            throw new Exception('Tuvimos un problema para actualizar tus datos!'); 
+        }
+    }
+
     
     /*--------------------------*/
     /* CREANDO UN NUEVO USUARIO */

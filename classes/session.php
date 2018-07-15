@@ -32,9 +32,9 @@ class Session{
         }
     }
 
-    /*------------------------------------------------*/
-    /* ENVIA LA CONFIRMACION DE REGISTRO AL INDEX.PHP */
-    /*------------------------------------------------*/
+    /*---------------------------------------------*/
+    /* ENVIA MENSAJES DE CONFIRMACION AL INDEX.PHP */
+    /*---------------------------------------------*/
     public static function flash($name, $string = ''){
         if (self::exists($name)) {
             $session = self::get($name);
